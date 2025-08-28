@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" xml:th="http://www.thymeleaf.org">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap & Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <!-- Fevicon -->
+    <link rel="icon" type="image/x-icon" href="/images/to-do-list.png">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="todo-container">
+    <h4 class="mb-4 d-flex align-items-center">
+        <i class="bi bi-calendar-check me-2"></i> To-Do List
+    </h4>
+
+    <!-- Add Form -->
+    <form class="d-flex mb-4" th:action="@{/add}" method="post">
+        <input type="text" name="title" placeholder="Add your task" class="form-control todo-input" required>
+        <button type="submit" class="btn btn-add">ADD <span>+</span></button>
+    </form>
+
+    <!-- No Todos -->
+    <div th:if="${#lists.isEmpty(todos)}" class="text-center text-muted">
+        No todos found
+    </div>
+
+    <!-- Todo List -->
+    <div class="todo-list">
+        <div th:each="todo : ${todos}" class="todo-item">
+            <div class="d-flex align-items-center">
+                <a th:href="@{/update/{id}(id=${todo.id})}">
+                    <i th:class="${todo.completed} ? 'bi bi-check-circle-fill check-icon' : 'bi bi-circle unchecked-icon'"></i>
+                </a>
+                <span th:text="${todo.title}" th:classappend="${todo.completed} ? 'completed': ''" class="todo-text"></span>
+            </div>
+            <a th:href="@{/delete/{id}(id=${todo.id})}" class="delete-btn">
+                <i class="bi bi-trash3"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
